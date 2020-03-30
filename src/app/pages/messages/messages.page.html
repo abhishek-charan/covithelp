@@ -1,18 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>messages</ion-title>
+    <ion-title>{{title}}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button text="" icon="home" defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="backClicked()"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 
 <ion-content fullscreen>
   <ion-list>
     <ion-list-header>
       Messages
     </ion-list-header>
-
     <ion-item>
       <ion-avatar slot="start">
         <img src="https://ionicframework.com/docs/demos/api/list/avatar-finn.png">

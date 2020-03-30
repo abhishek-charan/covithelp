@@ -14,7 +14,7 @@ export class LoginPage implements OnInit {
   }
   login(){
 
-this.router.navigate(['/home/settings'])
+this.router.navigate(['/home/map'])
   }
 
 }

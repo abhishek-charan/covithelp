@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dod.page.scss'],
 })
 export class DodPage implements OnInit {
-
+title="Doctor on demand";
   constructor() { }
 
   ngOnInit() {

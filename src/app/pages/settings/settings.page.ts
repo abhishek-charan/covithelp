@@ -12,17 +12,21 @@ export class SettingsPage implements OnInit {
 
   ngOnInit() {
   }
-  volunteer(){
+  profile(){
 
-    this.router.navigate(['/home/volunteer'])
+    this.router.navigate(['/home/profile'])
       }
 
-  dod(){
+      faq(){
 
-        this.router.navigate(['/home/dod'])
+        this.router.navigate(['/home/faq'])
           }    
-  quarantined(){
+          terms(){
 
-    this.router.navigate(['/home/quarantined'])
-          }  
+    this.router.navigate(['/home/terms'])
+          } 
+   help(){
+
+    this.router.navigate(['/home/help'])
+          } 
 }

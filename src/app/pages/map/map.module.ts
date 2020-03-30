@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FeedPageRoutingModule } from './feed-routing.module';
+import { MapPageRoutingModule } from './map-routing.module';
 
-import { FeedPage } from './feed.page';
+import { MapPage } from './map.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FeedPageRoutingModule
+    MapPageRoutingModule
   ],
-  declarations: [FeedPage]
+  declarations: [MapPage]
 })
-export class FeedPageModule {}
+export class MapPageModule {}

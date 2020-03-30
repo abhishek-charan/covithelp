@@ -9,10 +9,10 @@ const routes: Routes = [
     component: HomePage,
     children: [
       {
-        path: 'feed',
+        path: 'map',
         loadChildren:()=>
-        import('../pages/feed/feed.module').then(
-          m => m.FeedPageModule
+        import('../pages/map/map.module').then(
+          m => m.MapPageModule
         )
   },
       {
@@ -64,6 +64,10 @@ const routes: Routes = [
           path: 'quarantined',
           loadChildren: () => import('../pages/quarantined/quarantined.module').then
           ( m => m.QuarantinedPageModule)
+        },
+        {
+          path: 'profile',
+          loadChildren: () => import('../pages/profile/profile.module').then( m => m.ProfilePageModule)
         }
     ]
   }    
