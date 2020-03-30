@@ -1,0 +1,10 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      {{ title }}
+    </ion-title>
+    <ion-buttons slot="start" *ngIf="isBackButtonActivate">
+      <ion-back-button [defaultHref]="backPageLink"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

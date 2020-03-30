@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { FaqPageRoutingModule } from './faq-routing.module';
 
 import { FaqPage } from './faq.page';
+import { CommonHeaderModule } from 'src/app/components/common-header/common-header.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FaqPageRoutingModule
+    FaqPageRoutingModule,
+    CommonHeaderModule
   ],
   declarations: [FaqPage]
 })
