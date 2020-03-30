@@ -28,7 +28,7 @@ export class VolunteerPage implements OnInit {
       }
     ];
    }
-   checkMaster() {
+   checkMaster(event) {
     setTimeout(()=>{
       this.checkBoxList.forEach((obj: { isChecked: boolean; }) => {
         obj.isChecked = this.masterCheck;
