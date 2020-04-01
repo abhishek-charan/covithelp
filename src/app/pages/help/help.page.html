@@ -8,5 +8,138 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-app>
+    <ion-header translucent>
+      <ion-toolbar>
+        <ion-title size="small">Central Helpline Number for corona-virus: - <a href="tel:+91-11-23978046" style="color: red;">+91-11-23978046</a></ion-title>
+        <ion-title size="small">Helpline Numbers of States & Union Territories (UTs)</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content fullscreen>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class="blkbg">S. No</div>
+          </ion-col>
+          <ion-col>
+            <div class="blkbg">Name of the State</div>
+          </ion-col>
+          <ion-col>
+            <div class="blkbg">Helpline Nos.</div>
+          </ion-col>
+        </ion-row>  
+        <ion-row *ngFor="let data of helpData">
+          <ion-col>
+            <div>{{data.sno}}</div>
+          </ion-col>
+          <ion-col>
+            <div>{{data.state}}</div>
+          </ion-col>
+          <ion-col>
+            <div><a href="tel:{{data.helpline}}">{{data.helpline}}</a></div>
+          </ion-col>
+        </ion-row> 
+        <ion-row>
+          <ion-col>
+            <div class="blkbg">S. No</div>
+          </ion-col>
+          <ion-col>
+            <div class="blkbg">Name of the State</div>
+          </ion-col>
+          <ion-col>
+            <div class="blkbg">Helpline Nos.</div>
+          </ion-col>
+        </ion-row> 
+        <ion-row>
+          <ion-col>
+            <div class="">1</div>
+          </ion-col>
+          <ion-col>
+            <div class="">Andaman and Nicobar Islands</div>
+          </ion-col>
+          <ion-col>
+            <div class=""><a href="tel:9779558282">9779558282</a></div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div class="">2</div>
+          </ion-col>
+          <ion-col>
+            <div class="">Chandigarh</div>
+          </ion-col>
+          <ion-col>
+            <div class=""><a href="tel:9779558282">9779558282</a></div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div class="">3</div>
+          </ion-col>
+          <ion-col>
+            <div class="">Dadra and Nagar Haveli and Daman & Diu</div>
+          </ion-col>
+          <ion-col>
+            <div class=""><a href="tel:104">104</a></div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div class="">4</div>
+          </ion-col>
+          <ion-col>
+            <div class="">Delhi</div>
+          </ion-col>
+          <ion-col>
+            <div class=""><a href="tel:011-22307145">011-22307145</a></div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div class="">5</div>
+          </ion-col>
+          <ion-col>
+            <div class="">Jammu & Kashmir</div>
+          </ion-col>
+          <ion-col>
+            <div class=""><a href="telL01912520982">01912520982</a>, <a href="tel:0194-2440283">0194-2440283</a></div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div class="">6</div>
+          </ion-col>
+          <ion-col>
+            <div class="">Ladakh</div>
+          </ion-col>
+          <ion-col>
+            <div class=""><a href="tel:01982256462">01982256462</a></div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div class="">7</div>
+          </ion-col>
+          <ion-col>
+            <div class="">Lakshadweep</div>
+          </ion-col>
+          <ion-col>
+            <div class=""><a href="tel:104">104</a></div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div class="">8</div>
+          </ion-col>
+          <ion-col>
+            <div class="">Puducherry</div>
+          </ion-col>
+          <ion-col>
+            <div class=""><a href="tel:104">104</a></div>
+          </ion-col>
+        </ion-row>
+        
+      </ion-grid>
+    </ion-content>
+  </ion-app>
 </ion-content>
