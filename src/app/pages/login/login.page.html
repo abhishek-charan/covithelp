@@ -1,39 +1,36 @@
-
-<ion-content padding>
-  <form #form="ngForm">
-    <ion-grid>
-      <ion-row color="primary" justify-content-center>
-        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-          <div class="center">
-            <h3>Login</h3>
-          </div>
-          <div padding>
-            <ion-item>
-              <ion-icon name="call"></ion-icon>
-              <span>+91</span>
-              <ion-input type="number" aria-placeholder="Your mobile number " placeholder=" Your mobile number " pattern="06([0-9]{8})" maxlength="10" required></ion-input>
-            </ion-item>
-            <!-- <ion-radio-group>
-              <ion-list-header>
-                <ion-label color="light">Registering as:</ion-label>
-              </ion-list-header>
-          
-              <ion-item>
-                <ion-label>Volunteer</ion-label>
-                <ion-radio slot="start" value="Volunteer"></ion-radio>
-              </ion-item>
-          
-              <ion-item>
-                <ion-label>Service taker</ion-label>
-                <ion-radio slot="start" value="Service taker"></ion-radio>
-              </ion-item>
-            </ion-radio-group> -->
-          </div>
-          <div padding>
-            <ion-button expand="block" shape="flat" (click)="login()">Send OTP</ion-button>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+<ion-content>
+  <form [formGroup]="otpForm" novalidate>
+    <img
+      src="assets/images/covithelp-logo.png"
+      alt="covithelp logo"
+      title="covithelp logo"
+    />
+    <div>
+      <ion-item>
+        <ion-icon name="call"></ion-icon>
+        <ion-input
+          type="number"
+          placeholder="Your country code "
+          formControlName="countryCode"
+          (input)="changeCountryCode($event.target.value)"
+        ></ion-input>
+        <ion-input
+          type="number"
+          placeholder=" Your mobile number "
+          formControlName="phone"
+          (input)="changePhone($event.target.value)"
+        ></ion-input>
+      </ion-item>
+    </div>
+    <div style="margin: 20px 0;">
+      <ion-button
+        expand="block"
+        shape="flat"
+        (click)="login()"
+        color="primary"
+        [disabled]="!otpForm.valid"
+        >Send OTP</ion-button
+      >
+    </div>
   </form>
 </ion-content>

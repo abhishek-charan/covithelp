@@ -1,0 +1,23 @@
+.role {
+  position: relative;
+  top: 15%;
+  margin: 16px;
+  .role-option {
+    border: 5px solid var(--ion-color-medium);
+    text-align: center;
+    padding: 16px;
+    margin: 30px 0;
+    border-radius: 5px;
+    span {
+      font-size: 24px;
+      font-weight: bolder;
+      color: var(--ion-color-medium);
+    }
+  }
+  .role-option-activated {
+    border: 5px solid var(--ion-color-primary);
+    span {
+      color: var(--ion-color-primary);
+    }
+  }
+}
