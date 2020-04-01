@@ -1,0 +1,27 @@
+<ion-content>
+  <div class="role">
+    <div
+      class="role-option"
+      [ngClass]="{
+      'role-option-activated': selectedRole === 'service_provider'
+    }"
+      (click)="selectRole('service_provider')"
+    >
+      <span>Volunteer</span>
+    </div>
+    <div
+      class="role-option"
+      [ngClass]="{
+      'role-option-activated': selectedRole === 'service_taker'
+    }"
+      (click)="selectRole('service_taker')"
+    >
+      <span>Need Help</span>
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-button expand="full" (click)="chooseRole()" [disabled]="!selectedRole"
+    >Continue</ion-button
+  >
+</ion-footer>

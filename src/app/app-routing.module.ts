@@ -1,16 +1,36 @@
-import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
+import { AuthGuard, AuthGuardLogin } from "./guard/auth.guard";
 
 const routes: Routes = [
   {
-    path: '',
-    loadChildren: () => import('./index/index.module').then(m => m.IndexPageModule)
+    path: "",
+    loadChildren: () =>
+      import("./index/index.module").then(m => m.IndexPageModule),
+    canActivate: [AuthGuardLogin]
   },
   {
-    path: '',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    path: "select-role",
+    loadChildren: () =>
+      import("./pages/select-role/select-role.module").then(
+        m => m.SelectRolePageModule
+      ),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "submit-otp",
+    loadChildren: () =>
+      import("./pages/submit-otp/submit-otp.module").then(
+        m => m.SubmitOtpPageModule
+      ),
+    canActivate: [AuthGuardLogin]
+  },
+  {
+    path: "home",
+    loadChildren: () =>
+      import("./pages/home/home.module").then(m => m.HomePageModule),
+    canActivate: [AuthGuard]
   }
-  
 ];
 @NgModule({
   imports: [

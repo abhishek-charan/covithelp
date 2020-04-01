@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
 import { IndexPage } from "./index.page";
+import { AuthGuardLogin } from "../guard/auth.guard";
 
 const routes: Routes = [
   {
@@ -10,21 +11,28 @@ const routes: Routes = [
     children: [
       {
         path: "",
+        redirectTo: "welcome",
+        pathMatch: "full"
+      },
+      {
+        path: "welcome",
         loadChildren: () =>
           import("../pages/welcome/welcome.module").then(
             m => m.WelcomePageModule
-          )
+          ),
+        canActivate: [AuthGuardLogin]
       },
       {
         path: "login",
         loadChildren: () =>
-          import("../pages/login/login.module").then(m => m.LoginPageModule)
-      },
-      {
-        path: "signup",
-        loadChildren: () =>
-          import("../pages/signup/signup.module").then(m => m.SignupPageModule)
+          import("../pages/login/login.module").then(m => m.LoginPageModule),
+        canActivate: [AuthGuardLogin]
       }
+      // {
+      //   path: "signup",
+      //   loadChildren: () =>
+      //     import("../pages/signup/signup.module").then(m => m.SignupPageModule)
+      // }
     ]
   }
 ];
