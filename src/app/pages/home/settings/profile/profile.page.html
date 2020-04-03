@@ -1,0 +1,120 @@
+<app-common-header
+  [title]="title"
+  isBackButtonActivate="true"
+  backPageLink="/home/settings"
+>
+</app-common-header>
+<ion-content fullscreen class="ion-padding">
+  <form [formGroup]="userForm" novalidate *ngIf="!isLoading && userForm">
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+      <ion-item>
+        <ion-label position="floating"
+          >Full Name <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input required type="text" formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item disabled="true">
+        <!-- <ion-label position="floating"
+          >Contact Number <ion-text color="danger">*</ion-text></ion-label
+        > -->
+        <ion-icon name="call"></ion-icon>
+        <ion-input
+          required
+          type="number"
+          formControlName="countryCode"
+        ></ion-input>
+        <ion-input required type="number" formControlName="phone"></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="userInfo.serviceRole === 'service_provider'">
+        <ion-label position="floating"
+          >Profession<ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input type="text" formControlName="profession"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Address</ion-label>
+        <ion-input type="text" formControlName="address"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngIf="userInfo && userInfo.serviceRole==='service_taker'">
+      <ion-toolbar>
+        <ion-title size="large" slot="start">SOS Reason</ion-title>
+      </ion-toolbar>
+      <ion-radio-group [value]="selectedRadio">
+        <ion-item *ngFor="let item of checkBoxList">
+          <ion-label>{{item.name}}</ion-label>
+          <ion-radio
+            slot="start"
+            [value]="item.value"
+            (click)="selectRadio(item.value)"
+          ></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+    <ion-list *ngIf="userInfo && userInfo.serviceRole==='service_provider'">
+      <h4 class="ion-padding-start">Assisting in</h4>
+      <!-- <ion-item>
+        <ion-label><strong>Select All</strong></ion-label>
+        <ion-checkbox
+          slot="start"
+          (click)="selectItem('all')"
+          [checked]="isAllSelected"
+        ></ion-checkbox>
+        <input
+          class="checkbox"
+          type="checkbox"
+          slot="start"
+          (click)="selectItem('all')"
+          [checked]="isAllSelected"
+        />
+      </ion-item>
+      <ion-item *ngFor="let item of checkBoxList">
+        <ion-label>{{item.name}}</ion-label>
+        <ion-checkbox
+          slot="start"
+          (click)="selectItem(item)"
+          [checked]="item.isChecked"
+        ></ion-checkbox>
+        <input
+          class="checkbox"
+          type="checkbox"
+          slot="start"
+          (click)="selectItem(item)"
+          [checked]="item.isChecked"
+        />
+      </ion-item> -->
+
+      <ion-item>
+        <ion-label><strong>Select All</strong></ion-label>
+        <ion-checkbox
+          slot="start"
+          [(ngModel)]="masterCheck"
+          [indeterminate]="isIndeterminate"
+          (click)="checkMaster($event)"
+          [ngModelOptions]="{standalone: true}"
+        ></ion-checkbox>
+      </ion-item>
+      <ion-item *ngFor="let item of checkBoxList">
+        <ion-label>{{item.name}}</ion-label>
+        <ion-checkbox
+          slot="start"
+          [(ngModel)]="item.isChecked"
+          (ionChange)="checkEvent()"
+          [ngModelOptions]="{standalone: true}"
+        ></ion-checkbox>
+      </ion-item>
+    </ion-list>
+    <div class="ion-padding">
+      <ion-button expand="block" (click)="saveUserInfo()">Update</ion-button>
+    </div>
+  </form>
+  <!-- Skeleton screen -->
+  <div *ngIf="isLoading">
+    <app-app-skeleton
+      skeletonId="2"
+      *ngFor="let temp of tempArray"
+    ></app-app-skeleton>
+  </div>
+</ion-content>

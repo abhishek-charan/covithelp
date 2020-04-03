@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      {{title}}
+    </ion-title>
+    <ion-buttons slot="start" *ngIf="isBackButtonActivate">
+      <ion-back-button [defaultHref]="backPageLink"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <!-- <ion-icon
+        color="primary"
+        slot="icon-only"
+        name="log-out-outline"
+        (click)="goToLogout()"
+      ></ion-icon> -->
+      <img
+      src="assets/images/covithelp-logo.png"
+      alt="covithelp logo"
+      title="covithelp logo" width="64"
+    />
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
