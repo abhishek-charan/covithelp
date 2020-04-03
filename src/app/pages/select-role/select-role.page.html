@@ -1,4 +1,5 @@
 <ion-content>
+  <img src="assets/images/covithelpLogo.png" class="Img">
   <div class="role">
     <div
       class="role-option"
@@ -7,6 +8,7 @@
     }"
       (click)="selectRole('service_provider')"
     >
+    <ion-icon name="shield" size="large"></ion-icon>
       <span>Volunteer</span>
     </div>
     <div
@@ -16,12 +18,13 @@
     }"
       (click)="selectRole('service_taker')"
     >
-      <span>Need Help</span>
+    <ion-icon name="receipt" size="large"></ion-icon>
+      <span>Distressed</span>
     </div>
   </div>
 </ion-content>
 <ion-footer>
-  <ion-button expand="full" (click)="chooseRole()" [disabled]="!selectedRole"
-    >Continue</ion-button
-  >
+  <ion-button expand="full" (click)="chooseRole()" [disabled]="!selectedRole" style="color: black!important; font-weight:bold;"
+  ion-button color="dark">Continue</ion-button>
+  
 </ion-footer>

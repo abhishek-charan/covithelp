@@ -8,20 +8,23 @@
     <div>
       <ion-item>
         <ion-icon name="call"></ion-icon>
-        <ion-input
+        <ion-input  style="max-width: 20%;border-right: 1px solid grey;"
           type="number"
-          placeholder="Your country code "
+          placeholder="+91"
           formControlName="countryCode"
           (input)="changeCountryCode($event.target.value)"
         ></ion-input>
         <ion-input
           type="number"
           placeholder=" Your mobile number "
-          formControlName="phone"
+          formControlName="phone" style="max-width: 50%;"
           (input)="changePhone($event.target.value)"
         ></ion-input>
+        
       </ion-item>
     </div>
+    <div class="center" style="margin: 20px 0;">
+      <ion-checkbox></ion-checkbox> I agree to the <a href="#">terms &amp; conditions</a></div>
     <div style="margin: 20px 0;">
       <ion-button
         expand="block"

@@ -54,9 +54,7 @@
       </ion-radio-group>
     </ion-list>
     <ion-list *ngIf="userInfo && userInfo.serviceRole==='service_provider'">
-      <ion-toolbar>
-        <ion-title size="large" slot="start">Assisting in</ion-title>
-      </ion-toolbar>
+      <h4 class="ion-padding-start">Assisting in</h4>
       <!-- <ion-item>
         <ion-label><strong>Select All</strong></ion-label>
         <ion-checkbox
@@ -109,7 +107,7 @@
       </ion-item>
     </ion-list>
     <div class="ion-padding">
-      <ion-button expand="block" (click)="saveUserInfo()">Next</ion-button>
+      <ion-button expand="block" (click)="saveUserInfo()">Update</ion-button>
     </div>
   </form>
   <!-- Skeleton screen -->
