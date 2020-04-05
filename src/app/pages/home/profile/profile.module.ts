@@ -8,7 +8,7 @@ import { ProfilePageRoutingModule } from "./profile-routing.module";
 
 import { ProfilePage } from "./profile.page";
 import { CommonHeaderModule } from "src/app/components/common-header/common-header.module";
-import { AppSkeletonModule } from 'src/app/components/app-skeleton/app-skeleton.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -17,8 +17,8 @@ import { AppSkeletonModule } from 'src/app/components/app-skeleton/app-skeleton.
     IonicModule,
     ProfilePageRoutingModule,
     CommonHeaderModule,
-    AppSkeletonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ComponentsModule
   ],
   declarations: [ProfilePage]
 })

@@ -4,21 +4,19 @@ import { FormsModule } from "@angular/forms";
 
 import { IonicModule } from "@ionic/angular";
 
-import { MapPageRoutingModule } from "./map-routing.module";
+import { ListsPageRoutingModule } from "./lists-routing.module";
 
-import { MapPage } from "./map.page";
+import { ListsPage } from "./lists.page";
 import { CommonHeaderModule } from "src/app/components/common-header/common-header.module";
-import { ComponentsModule } from "src/app/components/components.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MapPageRoutingModule,
-    CommonHeaderModule,
-    ComponentsModule
+    ListsPageRoutingModule,
+    CommonHeaderModule
   ],
-  declarations: [MapPage]
+  declarations: [ListsPage]
 })
-export class MapPageModule {}
+export class ListsPageModule {}

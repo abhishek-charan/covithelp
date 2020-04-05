@@ -13,14 +13,19 @@ export class HomePage implements OnInit {
       label: "Map"
     },
     {
-      tabName: "notifications",
-      iconName: "notifications",
-      label: "Notification"
+      tabName: "lists",
+      iconName: "list-outline",
+      label: "Lists"
     },
     {
       tabName: "settings",
-      iconName: "settings",
-      label: "Setting"
+      iconName: "information-outline",
+      label: "Info"
+    },
+    {
+      tabName: "profile",
+      iconName: "person-circle-outline",
+      label: "Profile"
     }
   ];
   constructor() {}

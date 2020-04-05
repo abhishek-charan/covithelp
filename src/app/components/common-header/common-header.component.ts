@@ -12,6 +12,8 @@ export class CommonHeaderComponent implements OnInit {
   @Input() title: string;
   @Input() isBackButtonActivate: boolean;
   @Input() isLogoutButtonActivate: boolean;
+  @Input() isFullLogoActivate: boolean;
+  @Input() isSmallLogoActivate: boolean;
   @Input() backPageLink: string;
 
   constructor(
