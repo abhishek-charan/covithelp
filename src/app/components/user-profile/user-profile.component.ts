@@ -1,55 +1,39 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { UserService } from "src/app/providers/user/user.service";
 import { NetworkConnectionService } from "src/app/providers/network-connection/network-connection.service";
 import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
 import { StorageProvider } from "src/app/providers/storage/storage.service";
 import _ from "lodash";
-
+import { Router } from "@angular/router";
+import { constants } from "../../constants/constants";
 @Component({
   selector: "app-user-profile",
   templateUrl: "./user-profile.component.html",
   styleUrls: ["./user-profile.component.scss"]
 })
 export class UserProfileComponent implements OnInit {
+  @Input() serviceRole: string;
   tempArray = new Array(8);
   title = "Profile";
   isIndeterminate: boolean;
   masterCheck: boolean;
-  checkBoxList: any = [
-    {
-      value: "food",
-      name: "Food",
-      isChecked: false
-    },
-    {
-      value: "clothing",
-      name: "Clothing",
-      isChecked: false
-    },
-    {
-      value: "shelter",
-      name: "Shelter",
-      isChecked: false
-    },
-    {
-      value: "medical",
-      name: "Medical",
-      isChecked: false
-    }
-  ];
+  checkBoxList: any = constants.checkBoxList;
   selectedList = [];
   selectedRadio: any;
   isAllSelected: boolean = false;
   isLoading = false;
   userForm: any;
   userInfo: any;
+  volunteer = constants.enums.roles.SERVICE_PROVIDER;
+  distressed = constants.enums.roles.SERVICE_TAKER;
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
     private networkConnection: NetworkConnectionService,
     private commonPopover: CommonPopoverService,
-    private keystore: StorageProvider
+    private keystore: StorageProvider,
+    private router: Router
   ) {}
   ngOnInit() {
     this.fetchUserInfo();
@@ -63,7 +47,10 @@ export class UserProfileComponent implements OnInit {
         this.isLoading = false;
         this.userInfo = data;
         this.selectedList = data.supportList;
-        if (this.userInfo.serviceRole === "service_taker") {
+        if (
+          this.userInfo.serviceRole === constants.enums.roles.SERVICE_TAKER ||
+          this.serviceRole === constants.enums.roles.SERVICE_TAKER
+        ) {
           this.selectedRadio = this.userInfo.supportList[0];
         }
         _.map(this.selectedList, item => {
@@ -93,14 +80,19 @@ export class UserProfileComponent implements OnInit {
           address: [data.address || ""],
           serviceRole: [data.serviceRole || "", [Validators.required]],
           supportList: [data.supportList || ""],
-          isServiceRoleSelected: [
-            data.isServiceRoleSelected || "",
-            [Validators.required]
-          ]
+          isServiceRoleSelected: [data.isServiceRoleSelected || ""]
         });
-        if (this.userInfo.serviceRole === "service_taker") {
+        if (
+          this.userInfo.serviceRole === constants.enums.roles.SERVICE_TAKER ||
+          this.serviceRole === constants.enums.roles.SERVICE_TAKER
+        ) {
           this.userForm.get("profession").clearValidators();
           this.userForm.get("profession").updateValueAndValidity();
+        }
+        if (this.serviceRole) {
+          this.userForm.patchValue({
+            serviceRole: this.serviceRole
+          });
         }
       })
       .catch(err => {
@@ -181,7 +173,7 @@ export class UserProfileComponent implements OnInit {
   selectRadio(value) {
     this.selectedRadio = value;
   }
-  saveUserInfo() {
+  async saveUserInfo() {
     if (this.networkConnection.isOffline()) {
       return this.networkConnection.isConnectionMessage();
     }
@@ -195,20 +187,29 @@ export class UserProfileComponent implements OnInit {
       name: this.userForm.controls["name"].value,
       address: this.userForm.controls["address"].value,
       supportList:
-        this.userInfo.serviceRole === "service_provider"
+        this.userInfo.serviceRole === constants.enums.roles.SERVICE_PROVIDER ||
+        this.serviceRole === constants.enums.roles.SERVICE_PROVIDER
           ? list
-          : [this.selectedRadio]
+          : [this.selectedRadio],
+      serviceRole: this.serviceRole || this.userInfo.serviceRole,
+      isServiceRoleSelected: true
     };
-    if (this.userInfo.serviceRole === "service_provider") {
+    if (
+      this.userInfo.serviceRole === constants.enums.roles.SERVICE_PROVIDER ||
+      this.serviceRole === constants.enums.roles.SERVICE_PROVIDER
+    ) {
       data["profession"] = this.userForm.controls["profession"].value;
     }
-    this.commonPopover.loaderPresent("Updating user profile.");
+    await this.commonPopover.loaderPresent("Updating user profile.");
     this.userService
       .updateUser(data)
       .then(res => {
         this.commonPopover.loaderDismiss();
         this.commonPopover.toastPopOver("Profile updated successfully");
         this.keystore.set("User", res);
+        if (this.serviceRole) {
+          this.router.navigate(["/home/map"]);
+        }
       })
       .catch(err => {
         this.commonPopover.loaderDismiss();

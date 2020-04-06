@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { OtpService } from "src/app/providers/otp/otp.service";
 import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
 import { NetworkConnectionService } from "src/app/providers/network-connection/network-connection.service";
-import { StorageProvider } from 'src/app/providers/storage/storage.service';
+import { StorageProvider } from "src/app/providers/storage/storage.service";
 
 @Component({
   selector: "app-submit-otp",
@@ -26,7 +26,7 @@ export class SubmitOtpPage implements OnInit {
     private commonPopover: CommonPopoverService,
     private networkConnection: NetworkConnectionService,
     private router: Router,
-    private keystore:StorageProvider
+    private keystore: StorageProvider
   ) {}
 
   ngOnInit() {
@@ -41,14 +41,14 @@ export class SubmitOtpPage implements OnInit {
       });
     }
   }
-  resendOTP() {
+  async resendOTP() {
     if (this.timer > 0) {
       return;
     }
     if (this.networkConnection.isOffline()) {
       return this.networkConnection.isConnectionMessage();
     }
-    this.commonPopover.loaderPresent("Resending OTP");
+    await this.commonPopover.loaderPresent("Resending OTP");
     this.otpService
       .sendOTP(this.route.snapshot.paramMap["params"], "true")
       .then(data => {
@@ -60,7 +60,7 @@ export class SubmitOtpPage implements OnInit {
         this.commonPopover.loaderDismiss();
       });
   }
-  submitOTP() {
+  async submitOTP() {
     if (this.networkConnection.isOffline()) {
       return this.networkConnection.isConnectionMessage();
     }
@@ -72,7 +72,7 @@ export class SubmitOtpPage implements OnInit {
       phone: this.route.snapshot.paramMap.get("phone"),
       otp: parseInt(this.otpForm.controls["otp"].value)
     };
-    this.commonPopover.loaderPresent("Verifying OTP");
+    await this.commonPopover.loaderPresent("Verifying OTP");
     this.otpService
       .verifyOTP(data)
       .then(res => {

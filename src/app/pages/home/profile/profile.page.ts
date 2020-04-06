@@ -5,6 +5,7 @@ import _ from "lodash";
 import { NetworkConnectionService } from "src/app/providers/network-connection/network-connection.service";
 import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
 import { StorageProvider } from "src/app/providers/storage/storage.service";
+import { constants } from "src/app/constants/constants";
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.page.html",
@@ -62,7 +63,7 @@ export class ProfilePage implements OnInit {
         this.isLoading = false;
         this.userInfo = data;
         this.selectedList = data.supportList;
-        if (this.userInfo.serviceRole === "service_taker") {
+        if (this.userInfo.serviceRole === constants.enums.roles.SERVICE_TAKER) {
           this.selectedRadio = this.userInfo.supportList[0];
         }
         _.map(this.selectedList, item => {
@@ -97,7 +98,7 @@ export class ProfilePage implements OnInit {
             [Validators.required]
           ]
         });
-        if (this.userInfo.serviceRole === "service_taker") {
+        if (this.userInfo.serviceRole === constants.enums.roles.SERVICE_TAKER) {
           this.userForm.get("profession").clearValidators();
           this.userForm.get("profession").updateValueAndValidity();
         }
@@ -180,7 +181,7 @@ export class ProfilePage implements OnInit {
   selectRadio(value) {
     this.selectedRadio = value;
   }
-  saveUserInfo() {
+  async saveUserInfo() {
     if (this.networkConnection.isOffline()) {
       return this.networkConnection.isConnectionMessage();
     }
@@ -194,14 +195,14 @@ export class ProfilePage implements OnInit {
       name: this.userForm.controls["name"].value,
       address: this.userForm.controls["address"].value,
       supportList:
-        this.userInfo.serviceRole === "service_provider"
+        this.userInfo.serviceRole === constants.enums.roles.SERVICE_PROVIDER
           ? list
           : [this.selectedRadio]
     };
-    if (this.userInfo.serviceRole === "service_provider") {
+    if (this.userInfo.serviceRole === constants.enums.roles.SERVICE_PROVIDER) {
       data["profession"] = this.userForm.controls["profession"].value;
     }
-    this.commonPopover.loaderPresent("Updating user profile.");
+    await this.commonPopover.loaderPresent("Updating user profile.");
     this.userService
       .updateUser(data)
       .then(res => {

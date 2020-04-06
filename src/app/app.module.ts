@@ -14,17 +14,20 @@ import { ServiceProvider } from "./providers/service/service.service";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { IonicStorageModule } from "@ionic/storage";
 import { TokenInterceptor } from "./providers/service/token.interceptor";
-import { StorageProvider } from './providers/storage/storage.service';
+import { StorageProvider } from "./providers/storage/storage.service";
+import { SupportListComponent } from "./components/support-list/support-list.component";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [AppComponent, SupportListComponent],
+  entryComponents: [SupportListComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    FormsModule
   ],
   providers: [
     StatusBar,

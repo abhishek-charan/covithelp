@@ -36,8 +36,8 @@ export class CommonHeaderComponent implements OnInit {
         }
       });
   }
-  logout() {
-    this.commonPopover.loaderPresent("Logging Out...");
+  async logout() {
+    await this.commonPopover.loaderPresent("Logging Out...");
     let message = "Successfully logged out";
     //Logout event
     this.loginService.logout().then(result => {

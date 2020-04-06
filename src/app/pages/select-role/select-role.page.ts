@@ -4,6 +4,7 @@ import { UserService } from "src/app/providers/user/user.service";
 import { NetworkConnectionService } from "src/app/providers/network-connection/network-connection.service";
 import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
 import { StorageProvider } from "src/app/providers/storage/storage.service";
+import { constants } from 'src/app/constants/constants';
 
 @Component({
   selector: "app-select-role",
@@ -11,7 +12,9 @@ import { StorageProvider } from "src/app/providers/storage/storage.service";
   styleUrls: ["./select-role.page.scss"]
 })
 export class SelectRolePage implements OnInit {
-  selectedRole = "";
+  serviceRole = "";
+  volunteer = constants.enums.roles.SERVICE_PROVIDER;
+  distressed = constants.enums.roles.SERVICE_TAKER;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -23,31 +26,32 @@ export class SelectRolePage implements OnInit {
 
   ngOnInit() {}
   selectRole(role) {
-    this.selectedRole = role;
+    this.serviceRole = role;
   }
-  chooseRole() {
-    if (!this.selectedRole) {
-      return;
-    }
-    if (this.networkConnection.isOffline()) {
-      return this.networkConnection.isConnectionMessage();
-    }
-    let data = {
-      serviceRole: this.selectedRole
-    };
-    // set id
-    let id = 112312;
-    this.commonPopover.loaderPresent("Selecting Role");
-    this.userService
-      .selectRole(data)
-      .then(res => {
-        this.commonPopover.loaderDismiss();
-        this.router.navigate(["/home"]);
-        this.keystore.set("User", res);
-      })
-      .catch(err => {
-        this.commonPopover.loaderDismiss();
-      });
-    // this.router.navigate(["/home"])
+  async chooseRole() {
+    // if (!this.serviceRole) {
+    //   return;
+    // }
+    // if (this.networkConnection.isOffline()) {
+    //   return this.networkConnection.isConnectionMessage();
+    // }
+    // let data = {
+    //   serviceRole: this.serviceRole
+    // };
+    // await this.commonPopover.loaderPresent("Selecting Role");
+    // this.userService
+    //   .selectRole(data)
+    //   .then(res => {
+    //     this.commonPopover.loaderDismiss();
+    //     this.router.navigate(["/home"]);
+    //     this.keystore.set("User", res);
+    //   })
+    //   .catch(err => {
+    //     this.commonPopover.loaderDismiss();
+    //   });
+    this.router.navigate([
+      "/setup-profile",
+      { serviceRole: this.serviceRole }
+    ]);
   }
 }

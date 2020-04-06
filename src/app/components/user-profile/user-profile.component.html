@@ -17,7 +17,9 @@
       <ion-input required type="number" formControlName="phone"></ion-input>
     </ion-item>
 
-    <ion-item *ngIf="userInfo.serviceRole === 'service_provider'">
+    <ion-item
+      *ngIf="userInfo.serviceRole === volunteer || serviceRole === volunteer"
+    >
       <ion-label position="floating"
         >Profession<ion-text color="danger">*</ion-text></ion-label
       >
@@ -28,7 +30,12 @@
       <ion-input type="text" formControlName="address"></ion-input>
     </ion-item>
   </ion-list>
-  <ion-list *ngIf="userInfo && userInfo.serviceRole === 'service_taker'">
+  <ion-list
+    *ngIf="
+      userInfo &&
+      (userInfo.serviceRole === distressed || serviceRole === distressed)
+    "
+  >
     <ion-toolbar>
       <ion-title size="large" slot="start">SOS Reason</ion-title>
     </ion-toolbar>
@@ -43,7 +50,12 @@
       </ion-item>
     </ion-radio-group>
   </ion-list>
-  <ion-list *ngIf="userInfo && userInfo.serviceRole === 'service_provider'">
+  <ion-list
+    *ngIf="
+      userInfo &&
+      (userInfo.serviceRole === volunteer || serviceRole === volunteer)
+    "
+  >
     <h4 class="ion-padding-start">Assisting in</h4>
     <ion-item>
       <ion-label><strong>Select All</strong></ion-label>
