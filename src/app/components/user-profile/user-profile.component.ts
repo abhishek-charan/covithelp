@@ -7,6 +7,7 @@ import { StorageProvider } from "src/app/providers/storage/storage.service";
 import _ from "lodash";
 import { Router } from "@angular/router";
 import { constants } from "../../constants/constants";
+import { GoogleMapsService } from "src/app/providers/google-maps/google-maps.service";
 @Component({
   selector: "app-user-profile",
   templateUrl: "./user-profile.component.html",
@@ -33,7 +34,8 @@ export class UserProfileComponent implements OnInit {
     private networkConnection: NetworkConnectionService,
     private commonPopover: CommonPopoverService,
     private keystore: StorageProvider,
-    private router: Router
+    private router: Router,
+    private googleService: GoogleMapsService
   ) {}
   ngOnInit() {
     this.fetchUserInfo();
@@ -77,7 +79,15 @@ export class UserProfileComponent implements OnInit {
             [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
           ],
           profession: [data.profession || "", [Validators.required]],
-          address: [data.address || ""],
+          // address: [data.address || ""],
+          address: this.formBuilder.group({
+            lat: [data.address.lat || "", [Validators.required]],
+            lng: [data.address.lng || "", [Validators.required]],
+            formattedAddress: [
+              data.address.formattedAddress || "",
+              [Validators.required]
+            ]
+          }),
           serviceRole: [data.serviceRole || "", [Validators.required]],
           supportList: [data.supportList || ""],
           isServiceRoleSelected: [data.isServiceRoleSelected || ""]
@@ -214,5 +224,24 @@ export class UserProfileComponent implements OnInit {
       .catch(err => {
         this.commonPopover.loaderDismiss();
       });
+  }
+
+  /**
+   * Get current position
+   */
+  async getCurrentPosition() {
+    await this.commonPopover.loaderPresent("Fetching current location");
+    let address = await this.googleService.getCurrentPosition();
+    this.commonPopover.loaderDismiss();
+    if (!_.isEmpty(address)) {
+      //Set value of lat-lng,formatted_address
+      this.userForm.patchValue({
+        address: {
+          lat: address.lat,
+          lng: address.lng,
+          formattedAddress: address.formattedAddress
+        }
+      });
+    }
   }
 }

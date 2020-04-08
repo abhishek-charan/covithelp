@@ -12,10 +12,15 @@ export class HomePage implements OnInit {
       iconName: "map",
       label: "Map"
     },
+    // {
+    //   tabName: "lists",
+    //   iconName: "list-outline",
+    //   label: "Lists"
+    // },
     {
-      tabName: "lists",
-      iconName: "list-outline",
-      label: "Lists"
+      tabName: "notifications",
+      iconName: "notifications",
+      label: "Notifications"
     },
     {
       tabName: "settings",

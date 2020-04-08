@@ -20,14 +20,14 @@ const routes: Routes = [
           import("./map/map.module").then(m => m.MapPageModule),
         canActivate: [AuthGuard]
       },
-      // {
-      //   path: "notifications",
-      //   loadChildren: () =>
-      //     import("./notifications/notifications.module").then(
-      //       m => m.NotificationsPageModule
-      //     ),
-      //   canActivate: [AuthGuard]
-      // },
+      {
+        path: "notifications",
+        loadChildren: () =>
+          import("./notifications/notifications.module").then(
+            m => m.NotificationsPageModule
+          ),
+        canActivate: [AuthGuard]
+      },
       // {
       //   path: "messages",
       //   loadChildren: () =>
@@ -45,12 +45,12 @@ const routes: Routes = [
           import("./profile/profile.module").then(m => m.ProfilePageModule),
         canActivate: [AuthGuard]
       },
-      {
-        path: "lists",
-        loadChildren: () =>
-          import("./lists/lists.module").then(m => m.ListsPageModule),
-        canActivate: [AuthGuard]
-      }
+      // {
+      //   path: "lists",
+      //   loadChildren: () =>
+      //     import("./lists/lists.module").then(m => m.ListsPageModule),
+      //   canActivate: [AuthGuard]
+      // }
     ]
   }
 ];

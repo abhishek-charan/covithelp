@@ -10,7 +10,9 @@ import { StorageProvider } from "./providers/storage/storage.service";
 import { SupportListComponent } from "./components/support-list/support-list.component";
 import { Router } from "@angular/router";
 import { constants } from "./constants/constants";
-
+import { UserService } from "./providers/user/user.service";
+import { GoogleMapsService } from "./providers/google-maps/google-maps.service";
+import _ from "lodash";
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html",
@@ -27,7 +29,9 @@ export class AppComponent {
     private commonPopover: CommonPopoverService,
     private loginService: LoginService,
     private keystore: StorageProvider,
-    private router: Router
+    private router: Router,
+    private userService: UserService,
+    private googleService: GoogleMapsService
   ) {
     this.initializeApp();
   }
@@ -63,6 +67,8 @@ export class AppComponent {
               this.router.navigate(["/select-role"]);
             }, 100);
           } else {
+            //Set current location
+            this.getCurrentLocation(user.serviceRole);
             let role =
               user.serviceRole === constants.enums.roles.SERVICE_PROVIDER
                 ? constants.enums.rolesValue.VOLUNTEER
@@ -103,6 +109,20 @@ export class AppComponent {
           }
         });
       });
+    });
+  }
+
+  async getCurrentLocation(serviceRole) {
+    let address = await this.googleService.getCurrentPosition();
+    if (_.isEmpty(address)) {
+      return;
+    }
+    let data = {
+      address: address,
+      serviceRole: serviceRole
+    };
+    this.userService.updateUser(data).then(res => {
+      this.keystore.set("User", res);
     });
   }
 
