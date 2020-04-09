@@ -36,5 +36,12 @@ export const constants = {
       VOLUNTEER: "Volunteer",
       DISTRESSED: "Distressed"
     }
+  },
+  googleMaps: {
+    radius: "2000",
+    places: {
+      HOSPITAL: "hospital",
+      MARKET: "market"
+    }
   }
 };

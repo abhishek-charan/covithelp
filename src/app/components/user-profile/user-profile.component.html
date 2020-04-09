@@ -35,6 +35,10 @@
         readonly
       ></ion-input>
     </ion-item>
+    <ion-item *ngIf="!serviceRole">
+        <ion-label>Available for service?</ion-label>
+        <ion-toggle formControlName="isUserServiceActive"></ion-toggle>
+    </ion-item>
   </ion-list>
   <ion-list
     *ngIf="

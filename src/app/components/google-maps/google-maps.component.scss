@@ -17,14 +17,19 @@
     height: 40px;
     right: 12px !important;
     top: calc(100% - 230px) !important;
-
+    display: none;
     .location-btn {
       width: 100%;
       padding: 0;
       min-width: 0;
       height: 40px;
       border-radius: 50%;
+      background: white;
     }
+  }
+
+  .geolocation-activated {
+    display: block;
   }
 
   .gmap {

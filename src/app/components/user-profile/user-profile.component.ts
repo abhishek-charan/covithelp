@@ -90,7 +90,11 @@ export class UserProfileComponent implements OnInit {
           }),
           serviceRole: [data.serviceRole || "", [Validators.required]],
           supportList: [data.supportList || ""],
-          isServiceRoleSelected: [data.isServiceRoleSelected || ""]
+          isServiceRoleSelected: [data.isServiceRoleSelected || ""],
+          isUserServiceActive: [
+            data.isUserServiceActive || "",
+            [Validators.required]
+          ]
         });
         if (
           this.userInfo.serviceRole === constants.enums.roles.SERVICE_TAKER ||
@@ -103,6 +107,8 @@ export class UserProfileComponent implements OnInit {
           this.userForm.patchValue({
             serviceRole: this.serviceRole
           });
+          this.userForm.get("isUserServiceActive").clearValidators();
+          this.userForm.get("isUserServiceActive").updateValueAndValidity();
         }
       })
       .catch(err => {
@@ -202,7 +208,8 @@ export class UserProfileComponent implements OnInit {
           ? list
           : [this.selectedRadio],
       serviceRole: this.serviceRole || this.userInfo.serviceRole,
-      isServiceRoleSelected: true
+      isServiceRoleSelected: true,
+      isUserServiceActive: this.userForm.controls["isUserServiceActive"].value
     };
     if (
       this.userInfo.serviceRole === constants.enums.roles.SERVICE_PROVIDER ||
