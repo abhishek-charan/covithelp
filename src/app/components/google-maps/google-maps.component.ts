@@ -351,7 +351,6 @@ export class GoogleMapsComponent implements OnInit {
         this.createMarkersUser(res.items);
       })
       .catch(err => {
-        this.commonPopover.toastPopOver(err);
         console.log(err);
       });
   }
