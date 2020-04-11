@@ -41,6 +41,26 @@ export class UserService {
   }
 
   /**
+   * get user info within radius
+   */
+  getUserWihtinRadius(option = {}) {
+    return new Promise<any>((resolve, reject) => {
+      this.serviceProvider
+        .get(
+          `user/radius?skip=${option["skip"]}&&limit=${option["limit"]}&&keyword=${option["keyword"]}&&sort=${option["sort"]}&&order=${option["order"]}`
+        )
+        .subscribe(
+          res => {
+            resolve(res);
+          },
+          err => {
+            reject(err);
+          }
+        );
+    });
+  }
+
+  /**
    * Update user info
    * @param data user data
    */

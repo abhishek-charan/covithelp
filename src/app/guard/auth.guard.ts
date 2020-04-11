@@ -48,7 +48,7 @@ export class AuthGuardLogin implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     return this.keyStore.get("isAuthenticated").then(authenticated => {
       if (authenticated) {
-        this.router.navigateByUrl("/home");
+        this.router.navigateByUrl("/select-role");
         return false;
       } else {
         return true;

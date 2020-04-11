@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Validators, FormBuilder } from "@angular/forms";
 import { UserService } from "src/app/providers/user/user.service";
 import _ from "lodash";
@@ -6,12 +6,15 @@ import { NetworkConnectionService } from "src/app/providers/network-connection/n
 import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
 import { StorageProvider } from "src/app/providers/storage/storage.service";
 import { constants } from "src/app/constants/constants";
+import { UserProfileComponent } from "src/app/components/user-profile/user-profile.component";
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.page.html",
   styleUrls: ["./profile.page.scss"]
 })
 export class ProfilePage implements OnInit {
+  @ViewChild("userProf", { static: false })
+  userProf: UserProfileComponent;
   tempArray = new Array(8);
   title = "Profile";
   isIndeterminate: boolean;
@@ -213,5 +216,13 @@ export class ProfilePage implements OnInit {
       .catch(err => {
         this.commonPopover.loaderDismiss();
       });
+  }
+
+  doRefresh(event) {
+    this.userProf.fetchUserInfo();
+    setTimeout(() => {
+      //complete()  signify that the refreshing has completed and to close the refresher
+      event.target.complete();
+    }, 1000);
   }
 }

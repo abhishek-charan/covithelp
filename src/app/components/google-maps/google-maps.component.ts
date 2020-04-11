@@ -9,6 +9,11 @@ import {
 } from "@angular/core";
 import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
 import { constants } from "src/app/constants/constants";
+import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
+import { LocationAccuracy } from "@ionic-native/location-accuracy/ngx";
+import { Geolocation } from "@ionic-native/geolocation/ngx";
+import { Platform } from "@ionic/angular";
+import { UserService } from "src/app/providers/user/user.service";
 declare let google: any;
 @Component({
   selector: "app-google-maps",
@@ -30,14 +35,27 @@ export class GoogleMapsComponent implements OnInit {
   @Input() editData: any;
   @Input() searchPlace: any;
   @Output() getLatLng: EventEmitter<any> = new EventEmitter();
-  constructor(private commonPopover: CommonPopoverService) {}
+  option = {
+    skip: "",
+    limit: "",
+    keyword: "",
+    sort: "",
+    order: ""
+  };
+  constructor(
+    private commonPopover: CommonPopoverService,
+    private androidPermissions: AndroidPermissions,
+    private geolocation: Geolocation,
+    private locationAccuracy: LocationAccuracy,
+    private platform: Platform,
+    private userService: UserService
+  ) {}
   showGeoLocationIcon: boolean = false;
   ngOnInit() {}
   ngAfterViewInit() {
-    this.initMap();
-    // setTimeout(() => {
-    //   this.getCurrentPosition();
-    // }, 100);
+    this.platform.ready().then(() => {
+      this.initMap();
+    });
   }
 
   /**
@@ -65,17 +83,14 @@ export class GoogleMapsComponent implements OnInit {
     });
 
     //Current location
-    this.getCurrentPosition();
+    if (this.platform.is("cordova")) {
+      this.checkGPSPermission();
+    } else {
+      this.getCurrentPosition();
+    }
 
     //Create and open InfoWindow.
     this.infoWindow = new google.maps.InfoWindow();
-
-    // This event listener calls addMarker() when the map is clicked.
-    // this.map.addListener("click", event => {
-    //   let myLatLng = event.latLng;
-    //   this.addMarker(myLatLng);
-    //   this.getPosition(myLatLng.lat(), myLatLng.lng());
-    // });
 
     // this.searchBox = new google.maps.places.Autocomplete(
     //   this.searchElementRef.nativeElement
@@ -94,8 +109,8 @@ export class GoogleMapsComponent implements OnInit {
     // Add the marker at the clicked location
     this.marker = new google.maps.Marker({
       position: location,
-      map: this.map,
-      animation: google.maps.Animation.DROP
+      map: this.map
+      // animation: google.maps.Animation.DROP
     });
   }
 
@@ -110,42 +125,17 @@ export class GoogleMapsComponent implements OnInit {
             position.coords.latitude,
             position.coords.longitude
           );
-          // this.textAddressOfLocation(
-          //   position.coords.latitude,
-          //   position.coords.longitude
-          // );
         },
         err => {
+          console.log(err);
           this.commonPopover.toastPopOver(err);
         },
         { enableHighAccuracy: true }
       );
     } else {
-      alert("Geolocation is not supported by this browser.");
+      // alert("Geolocation is not supported by this browser.");
+      console.log("Geolocation is not supported by this browser.");
     }
-  }
-
-  /**
-   * Get formatted address of lat-lng
-   * @param lat
-   * @param lng
-   */
-  textAddressOfLocation(lat, lng) {
-    let geocoder = new google.maps.Geocoder();
-    let latlng = { lat: lat, lng: lng };
-    let that = this;
-    geocoder.geocode({ location: latlng }, function(results) {
-      if (results[0]) {
-        // that.zoom = 11;
-        // that.currentLocation = results[0].formatted_address;
-        // console.log(results[0]);
-        return results[0].formatted_address;
-      } else {
-        // console.log("No results found");
-        this.commonPopover.toastPopOver("No results found");
-        return "";
-      }
-    });
   }
 
   /**
@@ -160,6 +150,7 @@ export class GoogleMapsComponent implements OnInit {
     this.getPosition(lat, lng);
     this.nearbySearch(lat, lng, [constants.googleMaps.places.HOSPITAL]);
     this.textSearch(lat, lng, constants.googleMaps.places.MARKET);
+    this.fetchUser();
   }
 
   /**
@@ -249,7 +240,6 @@ export class GoogleMapsComponent implements OnInit {
    */
   createMarkers(places) {
     let bounds = new google.maps.LatLngBounds();
-    let placesList = document.getElementById("places");
 
     for (let i = 0, place; (place = places[i]); i++) {
       let image = {
@@ -263,34 +253,172 @@ export class GoogleMapsComponent implements OnInit {
       let name = place.name;
       let address = place.formatted_address || place.vicinity;
       let mapUrl = `https://maps.google.com/?q=${name},${address}`;
-      let contentString =
-        '<div id="content">' +
-        '<div id="siteNotice">' +
-        "</div>" +
-        '<h1 id="firstHeading" class="firstHeading">' +
-        name +
-        "</h1>" +
-        '<div id="bodyContent">' +
-        "<p>" +
-        address +
-        "</p>" +
-        "<div class='view-link'><a target='_blank' href='" +
-        mapUrl +
-        "'><span>View On Map</span></a></div>";
-      "</div>" + "</div>";
-
-      let marker = new google.maps.Marker({
-        map: this.map,
-        icon: image,
-        title: place.name,
-        position: place.geometry.location
-      });
+      this.placeMarker(name, address, mapUrl, image, place.geometry.location);
       bounds.extend(place.geometry.location);
-      google.maps.event.addListener(marker, "click", event => {
-        this.infoWindow.setContent(contentString);
-        this.infoWindow.open(this.map, marker);
-      });
     }
     this.map.fitBounds(bounds);
+  }
+
+  //Check if application having GPS access permission
+  checkGPSPermission() {
+    this.androidPermissions
+      .checkPermission(
+        this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION
+      )
+      .then(
+        result => {
+          if (result.hasPermission) {
+            //If having permission show 'Turn On GPS' dialogue
+            this.askToTurnOnGPS();
+          } else {
+            //If not having permission ask for permission
+            this.requestGPSPermission();
+          }
+        },
+        err => {
+          this.commonPopover.toastPopOver(err);
+          console.log(err);
+        }
+      );
+  }
+
+  /**
+   * Method to request GPS permission
+   */
+  requestGPSPermission() {
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      if (canRequest) {
+        console.log("4");
+      } else {
+        //Show 'GPS Permission Request' dialogue
+        this.androidPermissions
+          .requestPermission(
+            this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION
+          )
+          .then(
+            () => {
+              // call method to turn on GPS
+              this.askToTurnOnGPS();
+            },
+            error => {
+              //Show alert if user click on 'No Thanks'
+              this.commonPopover.toastPopOver(error);
+              console.log(error);
+            }
+          );
+      }
+    });
+  }
+
+  /**
+   * Method to ask to turn on GPS
+   */
+  askToTurnOnGPS() {
+    this.locationAccuracy
+      .request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
+      .then(
+        () => {
+          // When GPS Turned ON call method to get Accurate location coordinates
+          this.getLocationCoordinates();
+        },
+        error => {
+          this.commonPopover.toastPopOver(error);
+          console.log(error);
+        }
+      );
+  }
+
+  // Methos to get device accurate coordinates using device GPS
+  getLocationCoordinates() {
+    this.geolocation
+      .getCurrentPosition()
+      .then(position => {
+        this.showPosition(position.coords.latitude, position.coords.longitude);
+      })
+      .catch(error => {
+        this.commonPopover.toastPopOver(error);
+        console.log(error);
+      });
+  }
+
+  /**
+   * Fetch User details with in radius
+   */
+  fetchUser() {
+    this.userService
+      .getUserWihtinRadius(this.option)
+      .then(res => {
+        this.createMarkersUser(res.items);
+      })
+      .catch(err => {
+        this.commonPopover.toastPopOver(err);
+        console.log(err);
+      });
+  }
+
+  /**
+   * Create marker on map
+   * @param places
+   */
+  createMarkersUser(places) {
+    let bounds = new google.maps.LatLngBounds();
+
+    for (let i = 0, place; (place = places[i]); i++) {
+      let image = {
+        url: "assets/images/covithelp-logo.png",
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(50, 50)
+      };
+
+      let name = place.name || "CovitUser";
+      let address = place.address.formattedAddress;
+      let mapUrl = `https://maps.google.com/?q=${address}`;
+      let location = new google.maps.LatLng(
+        place.address.lat,
+        place.address.lng
+      );
+      this.placeMarker(name, address, mapUrl, image, location);
+      bounds.extend(location);
+    }
+    this.map.fitBounds(bounds);
+  }
+
+  /**
+   * Place Marker on Map
+   * @param name
+   * @param address
+   * @param mapUrl
+   * @param icon
+   * @param location
+   */
+  placeMarker(name, address, mapUrl, icon, location) {
+    let contentString =
+      '<div id="content">' +
+      '<div id="siteNotice">' +
+      "</div>" +
+      '<h1 id="firstHeading" class="firstHeading">' +
+      name +
+      "</h1>" +
+      '<div id="bodyContent">' +
+      "<p>" +
+      address +
+      "</p>" +
+      "<div class='view-link'><a target='_blank' href='" +
+      mapUrl +
+      "'><span>View On Map</span></a></div>";
+    "</div>" + "</div>";
+
+    let marker = new google.maps.Marker({
+      map: this.map,
+      icon: icon,
+      title: name,
+      position: location
+    });
+    google.maps.event.addListener(marker, "click", event => {
+      this.infoWindow.setContent(contentString);
+      this.infoWindow.open(this.map, marker);
+    });
   }
 }

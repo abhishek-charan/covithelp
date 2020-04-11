@@ -55,65 +55,72 @@ export class AppComponent {
         }
       });
 
-      //Ask for change role
-      this.keystore.get("isAuthenticated").then(auth => {
-        if (!auth) {
-          return;
-        }
-        this.keystore.get("User").then(user => {
-          if (!user.isServiceRoleSelected) {
-            // navigate to select role screen
-            setTimeout(() => {
-              this.router.navigate(["/select-role"]);
-            }, 100);
-          } else {
-            //Set current location
-            this.getCurrentLocation(user.serviceRole);
-            let role =
-              user.serviceRole === constants.enums.roles.SERVICE_PROVIDER
-                ? constants.enums.rolesValue.VOLUNTEER
-                : constants.enums.rolesValue.DISTRESSED;
-            this.commonPopover
-              .alertPopOver(
-                `You are a ${role}. Do you want to change?`,
-                "Change Role",
-                "Change"
-              )
-              .then(data => {
-                if (data) {
-                  //Give confirmation on change role
-                  let changedRole =
-                    role !== constants.enums.rolesValue.VOLUNTEER
-                      ? constants.enums.rolesValue.VOLUNTEER
-                      : constants.enums.rolesValue.DISTRESSED;
-                  let serviceRole =
-                    user.serviceRole === constants.enums.roles.SERVICE_PROVIDER
-                      ? constants.enums.roles.SERVICE_TAKER
-                      : constants.enums.roles.SERVICE_PROVIDER;
-                  this.commonPopover
-                    .alertPopOver(
-                      `You are a ${changedRole} now. Click continue to select resources and save your changes.`,
-                      "Role Changed",
-                      "Continue"
-                    )
-                    .then(userChange => {
-                      if (userChange) {
-                        //open modal
-                        this.commonPopover.presentModal(SupportListComponent, {
-                          serviceRole: serviceRole
-                        });
-                      }
-                    });
-                }
-              });
-          }
-        });
-      });
+      // //Ask for change role
+      // this.keystore.get("isAuthenticated").then(auth => {
+      //   if (!auth) {
+      //     return;
+      //   }
+      //   this.keystore.get("User").then(user => {
+      //     if (!user.isServiceRoleSelected) {
+      //       // navigate to select role screen
+      //       setTimeout(() => {
+      //         this.router.navigate(["/select-role"]);
+      //       }, 100);
+      //     } else {
+      //       //Set current location
+      //       this.getCurrentLocation(user.serviceRole);
+      //       let role =
+      //         user.serviceRole === constants.enums.roles.SERVICE_PROVIDER
+      //           ? constants.enums.rolesValue.VOLUNTEER
+      //           : constants.enums.rolesValue.DISTRESSED;
+      //       this.commonPopover
+      //         .alertPopOver(
+      //           `You are a ${role}. Do you want to change?`,
+      //           "Change Role",
+      //           "Change"
+      //         )
+      //         .then(data => {
+      //           if (data) {
+      //             //Give confirmation on change role
+      //             let changedRole =
+      //               role !== constants.enums.rolesValue.VOLUNTEER
+      //                 ? constants.enums.rolesValue.VOLUNTEER
+      //                 : constants.enums.rolesValue.DISTRESSED;
+      //             let serviceRole =
+      //               user.serviceRole === constants.enums.roles.SERVICE_PROVIDER
+      //                 ? constants.enums.roles.SERVICE_TAKER
+      //                 : constants.enums.roles.SERVICE_PROVIDER;
+      //             this.commonPopover
+      //               .alertPopOver(
+      //                 `You are a ${changedRole} now. Click continue to select resources and save your changes.`,
+      //                 "Role Changed",
+      //                 "Continue"
+      //               )
+      //               .then(userChange => {
+      //                 if (userChange) {
+      //                   //open modal
+      //                   this.commonPopover.presentModal(SupportListComponent, {
+      //                     serviceRole: serviceRole
+      //                   });
+      //                 }
+      //               });
+      //           }
+      //         });
+      //     }
+      //   });
+      // });
     });
   }
 
   async getCurrentLocation(serviceRole) {
-    let address = await this.googleService.getCurrentPosition();
+    // let address = await this.googleService.getCurrentPosition();
+    let address;
+    //Current location
+    if (this.platform.is("cordova")) {
+      address = await this.googleService.checkGPSPermission();
+    } else {
+      address = await this.googleService.getCurrentPosition();
+    }    
     if (_.isEmpty(address)) {
       return;
     }

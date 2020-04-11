@@ -14,6 +14,7 @@ import { GoogleMapsService } from "src/app/providers/google-maps/google-maps.ser
   styleUrls: ["./user-profile.component.scss"]
 })
 export class UserProfileComponent implements OnInit {
+  noDataText: string = "Unable to find profile.";
   @Input() serviceRole: string;
   tempArray = new Array(8);
   title = "Profile";
@@ -41,6 +42,9 @@ export class UserProfileComponent implements OnInit {
     this.fetchUserInfo();
   }
 
+  /**
+   * fetch user profile
+   */
   fetchUserInfo() {
     this.isLoading = true;
     this.userService
@@ -79,7 +83,6 @@ export class UserProfileComponent implements OnInit {
             [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]
           ],
           profession: [data.profession || "", [Validators.required]],
-          // address: [data.address || ""],
           address: this.formBuilder.group({
             lat: [data.address.lat || "", [Validators.required]],
             lng: [data.address.lng || "", [Validators.required]],
@@ -116,6 +119,10 @@ export class UserProfileComponent implements OnInit {
       });
   }
 
+  /**
+   * CheckBox
+   * @param event
+   */
   checkMaster(event) {
     setTimeout(() => {
       this.checkBoxList.forEach((obj: { isChecked: boolean }) => {
@@ -124,6 +131,9 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * Check box event
+   */
   checkEvent() {
     const totalItems = this.checkBoxList.length;
     let checked = 0;
@@ -146,49 +156,16 @@ export class UserProfileComponent implements OnInit {
   }
 
   /**
-   * Select or unselect item
-   * @param item
+   * Select radio
+   * @param value
    */
-  selectItem(item) {
-    if (item === "all") {
-      if (this.isAllSelected) {
-        this.selectedList = [];
-        for (let data of this.checkBoxList) {
-          data.isChecked = false;
-        }
-        this.isAllSelected = false;
-      } else {
-        this.selectedList = _.map(this.checkBoxList, "value");
-        for (let data of this.checkBoxList) {
-          data.isChecked = true;
-        }
-        this.isAllSelected = true;
-      }
-    } else {
-      let indx = _.indexOf(this.selectedList, item.value);
-      if (indx > -1) {
-        this.selectedList.splice(indx, 1);
-        let indxItem = _.findIndex(this.checkBoxList, elem => {
-          return elem.value === item.value;
-        });
-        this.checkBoxList[indxItem]["isChecked"] = false;
-        this.isAllSelected = false;
-      } else {
-        this.selectedList.push(item.value);
-        let indxItem = _.findIndex(this.checkBoxList, elem => {
-          return elem.value === item.value;
-        });
-        this.checkBoxList[indxItem]["isChecked"] = true;
-        if (this.checkBoxList.length == this.selectedList.length) {
-          this.isAllSelected = true;
-        }
-      }
-    }
-  }
-
   selectRadio(value) {
     this.selectedRadio = value;
   }
+
+  /**
+   * Save user info
+   */
   async saveUserInfo() {
     if (this.networkConnection.isOffline()) {
       return this.networkConnection.isConnectionMessage();

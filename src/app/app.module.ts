@@ -18,6 +18,9 @@ import { StorageProvider } from "./providers/storage/storage.service";
 import { SupportListComponent } from "./components/support-list/support-list.component";
 import { FormsModule } from "@angular/forms";
 
+import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
+import { Geolocation } from "@ionic-native/geolocation/ngx";
+import { LocationAccuracy } from "@ionic-native/location-accuracy/ngx";
 @NgModule({
   declarations: [AppComponent, SupportListComponent],
   entryComponents: [SupportListComponent],
@@ -41,7 +44,10 @@ import { FormsModule } from "@angular/forms";
       multi: true
     },
     ServiceProvider,
-    StorageProvider
+    StorageProvider,
+    AndroidPermissions,
+    Geolocation,
+    LocationAccuracy
   ],
   bootstrap: [AppComponent]
 })
