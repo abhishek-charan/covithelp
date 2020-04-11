@@ -30,11 +30,11 @@ const routes: Routes = [
         loadChildren: () =>
           import("./terms/terms.module").then(m => m.TermsPageModule)
       },
-      {
-        path: "profile",
-        loadChildren: () =>
-          import("./profile/profile.module").then(m => m.ProfilePageModule)
-      }
+      // {
+      //   path: "profile",
+      //   loadChildren: () =>
+      //     import("../profile/profile.module").then(m => m.ProfilePageModule)
+      // }
     ]
   }
 ];

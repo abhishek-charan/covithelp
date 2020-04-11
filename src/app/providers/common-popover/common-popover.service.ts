@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import {
   ToastController,
   LoadingController,
-  AlertController
+  AlertController,
+  ModalController
 } from "@ionic/angular";
 
 @Injectable({
@@ -13,7 +14,8 @@ export class CommonPopoverService {
   constructor(
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController
   ) {}
 
   /**
@@ -59,7 +61,7 @@ export class CommonPopoverService {
    * @param message
    * @param title
    */
-  alertPopOver(message?, title?) {
+  async alertPopOver(message?, title?, okBtnText = "OK") {
     return new Promise<any>(async (resolve, reject) => {
       let alert = await this.alertCtrl.create({
         header: title,
@@ -73,7 +75,7 @@ export class CommonPopoverService {
             }
           },
           {
-            text: "OK",
+            text: okBtnText,
             handler: () => {
               resolve(true);
             }
@@ -81,6 +83,30 @@ export class CommonPopoverService {
         ]
       });
       return await alert.present();
+    });
+  }
+
+  /**
+   * To open modal
+   * @param component
+   * @param componentProps
+   */
+  async presentModal(component, componentProps = {}) {
+    const modal = await this.modalCtrl.create({
+      component: component,
+      componentProps: componentProps
+    });
+    return await modal.present();
+  }
+
+  /**
+   * Dismiss Modal
+   */
+  async dismissModal() {
+    // using the injected ModalController this page
+    // can "dismiss" itself and optionally pass back data
+    this.modalCtrl.dismiss({
+      dismissed: true
     });
   }
 }

@@ -43,7 +43,7 @@ export class LoginPage implements OnInit {
       });
     }
   }
-  login() {
+  async login() {
     //TODO form validation and make body
     if (!this.otpForm.valid) {
       return;
@@ -55,7 +55,7 @@ export class LoginPage implements OnInit {
     if (this.networkConnection.isOffline()) {
       return this.networkConnection.isConnectionMessage();
     }
-    this.commonPopover.loaderPresent("Sending OTP");
+    await this.commonPopover.loaderPresent("Sending OTP");
     this.otpService
       .sendOTP(data)
       .then(res => {

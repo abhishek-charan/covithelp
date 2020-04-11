@@ -28,7 +28,7 @@ export class TimeoutError implements Error {
 */
 @Injectable()
 export class ServiceProvider {
-  //private baseUrl: string = "http://192.168.0.3:8080/";
+  // private baseUrl: string = "http://192.168.0.5:8080/";
   private baseUrl: string = "https://covithelp-backend.herokuapp.com/";
   private appversion: string = "";
 

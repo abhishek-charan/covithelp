@@ -38,7 +38,19 @@ const routes: Routes = [
         loadChildren: () =>
           import("./settings/settings.module").then(m => m.SettingsPageModule),
         canActivate: [AuthGuard]
-      }
+      },
+      {
+        path: "profile",
+        loadChildren: () =>
+          import("./profile/profile.module").then(m => m.ProfilePageModule),
+        canActivate: [AuthGuard]
+      },
+      // {
+      //   path: "lists",
+      //   loadChildren: () =>
+      //     import("./lists/lists.module").then(m => m.ListsPageModule),
+      //   canActivate: [AuthGuard]
+      // }
     ]
   }
 ];

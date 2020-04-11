@@ -12,7 +12,7 @@ export class MapPage implements OnInit {
   constructor(private keystore: StorageProvider, private router: Router) {}
 
   ngOnInit() {
-    this.checkIfRoleSelected();
+    // this.checkIfRoleSelected();
   }
 
   /**

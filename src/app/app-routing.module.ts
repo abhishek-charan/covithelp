@@ -30,6 +30,14 @@ const routes: Routes = [
     loadChildren: () =>
       import("./pages/home/home.module").then(m => m.HomePageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: "setup-profile",
+    loadChildren: () =>
+      import("./pages/setup-profile/setup-profile.module").then(
+        m => m.SetupProfilePageModule
+      ),
+    canActivate: [AuthGuard]
   }
 ];
 @NgModule({

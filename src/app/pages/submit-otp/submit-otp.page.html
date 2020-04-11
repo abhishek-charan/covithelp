@@ -2,6 +2,7 @@
   [title]="title"
   isBackButtonActivate="true"
   backPageLink="/login"
+  isSmallLogoActivate="true"
 ></app-common-header>
 <ion-content>
   <div class="otp">
@@ -23,7 +24,7 @@
         <span *ngIf="timer>0">({{timer}} sec)</span>
       </div>
     </form>
-    </div>
+  </div>
 </ion-content>
 <ion-footer>
   <ion-button expand="full" (click)="submitOTP()" [disabled]="!otpForm.valid"

@@ -12,15 +12,25 @@ export class HomePage implements OnInit {
       iconName: "map",
       label: "Map"
     },
+    // {
+    //   tabName: "lists",
+    //   iconName: "list-outline",
+    //   label: "Lists"
+    // },
     {
       tabName: "notifications",
       iconName: "notifications",
-      label: "Notification"
+      label: "Notifications"
     },
     {
       tabName: "settings",
-      iconName: "settings",
-      label: "Setting"
+      iconName: "information-outline",
+      label: "Info"
+    },
+    {
+      tabName: "profile",
+      iconName: "person-circle-outline",
+      label: "Profile"
     }
   ];
   constructor() {}

@@ -1,45 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { constants } from "src/app/constants/constants";
 
 @Component({
-  selector: 'app-volunteer',
-  templateUrl: './volunteer.page.html',
-  styleUrls: ['./volunteer.page.scss'],
+  selector: "app-volunteer",
+  templateUrl: "./volunteer.page.html",
+  styleUrls: ["./volunteer.page.scss"]
 })
 export class VolunteerPage implements OnInit {
-
-  isIndeterminate:boolean;
-  masterCheck:boolean;
-  checkBoxList:any;
+  isIndeterminate: boolean;
+  masterCheck: boolean;
+  checkBoxList: any;
 
   constructor() {
-    this.checkBoxList = [
-      {
-        value:"Food",
-        isChecked:false
-      },{
-        value:"Clothing",
-        isChecked:false
-      },{
-        value:"Shelter",
-        isChecked:false
-      },{
-        value:"Medical",
-        isChecked:false
-      }
-    ];
-   }
-   checkMaster(event) {
-    setTimeout(()=>{
-      this.checkBoxList.forEach((obj: { isChecked: boolean; }) => {
+    this.checkBoxList = constants.checkBoxList;
+  }
+  checkMaster(event) {
+    setTimeout(() => {
+      this.checkBoxList.forEach((obj: { isChecked: boolean }) => {
         obj.isChecked = this.masterCheck;
       });
     });
   }
- 
+
   checkEvent() {
     const totalItems = this.checkBoxList.length;
     let checked = 0;
-    this.checkBoxList.map((obj: { isChecked: any; }) => {
+    this.checkBoxList.map((obj: { isChecked: any }) => {
       if (obj.isChecked) checked++;
     });
     if (checked > 0 && checked < totalItems) {
@@ -56,7 +42,5 @@ export class VolunteerPage implements OnInit {
       this.masterCheck = false;
     }
   }
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
