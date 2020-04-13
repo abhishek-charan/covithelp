@@ -34,11 +34,19 @@ const routes: Routes = [
   {
     path: "setup-profile",
     loadChildren: () =>
-      import("./pages/setup-profile/setup-profile.module").then(
-        m => m.SetupProfilePageModule
-      ),
+      import("./pages/setup-profile/setup-profile.module").then(m => m.SetupProfilePageModule),
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'contact-us',
+    loadChildren: () => import('./pages/home/settings/contact-us/contact-us.module').then( m => m.ContactUsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'terms-common',
+    loadChildren: () => import('./terms-common/terms-common.module').then( m => m.TermsCommonPageModule)
+  },
+
 ];
 @NgModule({
   imports: [
