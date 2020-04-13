@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { StorageProvider } from "src/app/providers/storage/storage.service";
 import { Router } from "@angular/router";
+import { constants } from "src/app/constants/constants";
+import { CommonPopoverService } from "src/app/providers/common-popover/common-popover.service";
 
 @Component({
   selector: "app-map",
@@ -9,10 +11,14 @@ import { Router } from "@angular/router";
 })
 export class MapPage implements OnInit {
   title = "Map";
-  constructor(private keystore: StorageProvider, private router: Router) {}
+  constructor(
+    private keystore: StorageProvider,
+    private router: Router,
+    private commonPopover: CommonPopoverService
+  ) {}
 
   ngOnInit() {
-    // this.checkIfRoleSelected();
+    this.checkIfRoleSelected();
   }
 
   /**
@@ -20,9 +26,10 @@ export class MapPage implements OnInit {
    */
   checkIfRoleSelected() {
     this.keystore.get("User").then(data => {
-      if (!data.isServiceRoleSelected) {
+      if (data.serviceRole === constants.enums.roles.SERVICE_TAKER) {
         // navigate to select role screen
-        this.router.navigate(["/select-role"]);
+        // this.router.navigate(["/select-role"]);
+        this.commonPopover.toastPopOver("False alarm is legally punishable!");
       }
     });
   }
