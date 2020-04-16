@@ -29,7 +29,13 @@ const routes: Routes = [
         path: "terms",
         loadChildren: () =>
           import("./terms/terms.module").then(m => m.TermsPageModule)
-      },
+      }
+      ,
+      {
+        path: 'contact-us',
+        loadChildren: () => 
+        import('./contact-us/contact-us.module').then( m => m.ContactUsPageModule)
+      }
       // {
       //   path: "profile",
       //   loadChildren: () =>
@@ -37,6 +43,7 @@ const routes: Routes = [
       // }
     ]
   }
+
 ];
 
 @NgModule({
