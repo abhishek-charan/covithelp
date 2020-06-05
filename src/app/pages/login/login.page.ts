@@ -60,7 +60,7 @@ export class LoginPage implements OnInit {
       .sendOTP(data)
       .then(res => {
         this.commonPopover.loaderDismiss();
-        this.commonPopover.toastPopOver("OTP send to your number.");
+        this.commonPopover.toastPopOver("OTP sent to your number.");
         this.router.navigate(["/submit-otp",data]);
       })
       .catch(error => {

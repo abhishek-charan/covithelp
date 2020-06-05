@@ -171,9 +171,12 @@ export class UserProfileComponent implements OnInit {
     if (this.networkConnection.isOffline()) {
       return this.networkConnection.isConnectionMessage();
     }
-    if (!this.userForm.valid) {
-      return;
-    }
+
+    // if (!this.userForm.valid) {
+    //   console.log('User Profile Component | saveUserInfo() | User Form validation failed');
+    //   return;
+    // }
+
     let list = _.filter(this.checkBoxList, { isChecked: true });
     list = _.map(list, 'value');
 
@@ -192,6 +195,8 @@ export class UserProfileComponent implements OnInit {
 
     };
 
+   
+
     if (
       this.userInfo.serviceRole === constants.enums.roles.SERVICE_PROVIDER ||
       this.serviceRole === constants.enums.roles.SERVICE_PROVIDER
@@ -199,11 +204,15 @@ export class UserProfileComponent implements OnInit {
       data.profession = this.userForm.controls.profession.value;
     }
 
+
+    console.log('User Profile Component | saveUserInfo() | data inputted | ' + JSON.stringify(data));
+
     await this.commonPopover.loaderPresent('Updating user profile.');
 
     this.userService
       .updateUser(data)
       .then(res => {
+        console.log('User Profile Component | saveUserInfo() | response | ' + JSON.stringify(res));
         this.commonPopover.loaderDismiss();
         this.commonPopover.toastPopOver('Profile updated successfully');
         this.keystore.set('User', res);
@@ -213,6 +222,7 @@ export class UserProfileComponent implements OnInit {
       })
       .catch(err => {
         this.commonPopover.loaderDismiss();
+        console.error('User Profile Component | saveUserInfo() | response | ' + JSON.stringify(err));
       });
   }
 

@@ -69,9 +69,11 @@ export class UserService {
     return new Promise<any>((resolve, reject) => {
       this.serviceProvider.put(`user`, data).subscribe(
         res => {
+          console.log('User Service | updateUser() | response : + ' + JSON.stringify(res));
           resolve(res);
         },
         err => {
+          console.log('User Service | updateUser() | errors : '+ JSON.stringify(err));
           reject(err);
         }
       );
