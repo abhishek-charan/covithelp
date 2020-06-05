@@ -8,19 +8,19 @@ export class StorageProvider {
   }
 
   get(key): any {
-    return this.local.get(key)
+    return this.local.get(key);
   }
 
   set(key, value): any {
-    return this.local.set(key, value)
+    return this.local.set(key, value);
   }
 
   remove(key): any {
-    return this.local.remove(key)
+    return this.local.remove(key);
   }
 
   clear(): any {
-    return this.local.clear()
+    return this.local.clear();
   }
 
 }

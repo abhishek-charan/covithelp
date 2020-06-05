@@ -24,9 +24,9 @@ export class LoginPage implements OnInit {
     this.otpForm = this.formBuilder.group({
       countryCode: [
         "",
-        [Validators.required, Validators.pattern(/^[0-9]{1,3}$/)]
+        [Validators.required, Validators.pattern(/^[0-9]{1,4}$/)]
       ],
-      phone: ["", [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]]
+      phone: ["", [Validators.required, Validators.pattern(/^[0-9]{9,15}$/)]]
     });
   }
   changeCountryCode(value) {

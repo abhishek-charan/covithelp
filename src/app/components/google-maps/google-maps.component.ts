@@ -364,7 +364,7 @@ export class GoogleMapsComponent implements OnInit {
 
     for (let i = 0, place; (place = places[i]); i++) {
       let image = {
-        url: "assets/images/covithelp-logo.png",
+        url: "assets/images/VIT-logo.png",
         size: new google.maps.Size(71, 71),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),

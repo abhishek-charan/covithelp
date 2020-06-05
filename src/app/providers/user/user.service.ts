@@ -65,6 +65,7 @@ export class UserService {
    * @param data user data
    */
   updateUser(data) {
+    console.log('User Service | updateUser()');
     return new Promise<any>((resolve, reject) => {
       this.serviceProvider.put(`user`, data).subscribe(
         res => {

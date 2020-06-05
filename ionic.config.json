@@ -1,7 +1,6 @@
 {
-  "name": "covithelp",
+  "name": "VIT",
   "integrations": {
-    "capacitor": {},
     "cordova": {}
   },
   "type": "angular"
