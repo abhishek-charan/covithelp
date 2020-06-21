@@ -2,7 +2,7 @@
 <widget id="in.oranetech.VIT" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>VIT</name>
     <description>Co-Volunteers-IT-Help Application, Preserving Humanity.</description>
-    <author email="info@oranetech.com" href="http://VIT.in/">VITTeam</author>
+    <author email="info@oranetech.com" href="http://VIT.in/">VIT Team</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
