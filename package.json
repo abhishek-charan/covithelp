@@ -1,8 +1,8 @@
 {
-  "name": "VIT",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "name": "vit",
+  "version": "0.0.2",
+  "author": "OraneIntelliSolutions",
+  "homepage": "https://orenetech.com/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
