@@ -20,6 +20,10 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "@babel/compat-data": "7.8.0",
+    "@capacitor/android": "^2.4.4",
+    "@capacitor/cli": "^2.4.4",
+    "@capacitor/core": "^2.4.4",
+    "@capacitor/ios": "^2.4.4",
     "@ionic-native/android-permissions": "^5.23.0",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/geolocation": "^5.23.0",
@@ -39,6 +43,7 @@
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "rxjs": "~6.5.1",
+    "sentry-cordova": "^0.17.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },
@@ -91,11 +96,15 @@
       "cordova-plugin-request-location-accuracy": {
         "PLAY_SERVICES_LOCATION_VERSION": "16.+"
       },
-      "cordova-plugin-android-permissions": {}
+      "cordova-plugin-android-permissions": {},
+      "sentry-cordova": {}
     },
     "platforms": [
       "android",
       "ios"
-    ]
+    ],
+    "config": {
+      "ionic_generate_source_map": "true"
+    }
   }
 }

@@ -21,6 +21,25 @@ import { FormsModule } from "@angular/forms";
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { LocationAccuracy } from "@ionic-native/location-accuracy/ngx";
+
+
+import * as Sentry from 'sentry-cordova';
+Sentry.init({ dsn: 'https://50d69d1d58a048fa9e4ad726b409de86@o292934.ingest.sentry.io/5177920' });
+import { ErrorHandler } from '@angular/core';
+
+
+export class SentryIonicErrorHandler extends ErrorHandler {
+  handleError(error) {
+    super.handleError(error);
+    try {
+      Sentry.captureException(error.originalError || error);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+}
+
+
 @NgModule({
   declarations: [AppComponent, SupportListComponent],
   entryComponents: [SupportListComponent],
@@ -35,9 +54,9 @@ import { LocationAccuracy } from "@ionic-native/location-accuracy/ngx";
   providers: [
     StatusBar,
     SplashScreen,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Keyboard,
     Network,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
@@ -47,7 +66,8 @@ import { LocationAccuracy } from "@ionic-native/location-accuracy/ngx";
     StorageProvider,
     AndroidPermissions,
     Geolocation,
-    LocationAccuracy
+    LocationAccuracy,
+    {provide: ErrorHandler, useClass: SentryIonicErrorHandler}
   ],
   bootstrap: [AppComponent]
 })
